@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.yugabyte:jdbc-yugabytedb:42.3.5-yb-1">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/yugabyte/jdbc-yugabytedb/42.3.5-yb-1/jdbc-yugabytedb-42.3.5-yb-1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/yugabyte/jdbc-yugabytedb/42.3.5-yb-1/jdbc-yugabytedb-42.3.5-yb-1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/yugabyte/jdbc-yugabytedb/42.3.5-yb-1/jdbc-yugabytedb-42.3.5-yb-1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

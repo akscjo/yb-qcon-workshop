@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ledger-microservice/ledger-microservice.iml" filepath="$PROJECT_DIR$/ledger-microservice/ledger-microservice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/yb-qcon-workshop.iml" filepath="$PROJECT_DIR$/.idea/yb-qcon-workshop.iml" />
+    </modules>
+  </component>
+</project>
