@@ -45,7 +45,7 @@ public class GeneralUtility {
 
     public static Transaction getRandomTransaction(){
         Transaction transaction = new Transaction();
-        transaction.setAmount(randomIntegerVal());
+        transaction.setAmount(randomIntegerVal(1,100000));
         transaction.setFromAcct(randomString(10));
         transaction.setToAcct(randomString(10));
         transaction.setFromRoute(randomString(8));
