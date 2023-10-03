@@ -4,6 +4,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/ledger-microservice/pom.xml" />
+        <option value="$PROJECT_DIR$/workload-service/pom.xml" />
       </list>
     </option>
   </component>

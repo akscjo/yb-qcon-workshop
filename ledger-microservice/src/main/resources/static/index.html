@@ -94,14 +94,9 @@
                 <thead>
                 <tr>
                     <th>Host</th>
-                    <th>Port</th>
                     <th>Cloud</th>
                     <th>Region</th>
                     <th>Zone</th>
-                    <th>Is Up</th>
-                    <th>Is Master</th>
-                    <th>Is TServer</th>
-                    <th>Is Read Replica</th>
                 </tr>
                 </thead>
                 <tbody id="ybServerInfoTable">
@@ -246,10 +241,6 @@
                 <td>${server.cloud}</td>
                 <td>${server.region}</td>
                 <td>${server.zone}</td>
-                <td>${server.nodeUp ? 'Yes' : 'No'}</td>
-                <td>${server.master ? 'Yes' : 'No'}</td>
-                <td>${server.tserver ? 'Yes' : 'No'}</td>
-                <td>${server.readReplica ? 'Yes' : 'No'}</td>
             </tr>
         `;
             $('#ybServerInfoTable').append(row);

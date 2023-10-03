@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.yugabyte:native-protocol:1.4.11-yb-3">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/yugabyte/native-protocol/1.4.11-yb-3/native-protocol-1.4.11-yb-3.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/yugabyte/native-protocol/1.4.11-yb-3/native-protocol-1.4.11-yb-3-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/yugabyte/native-protocol/1.4.11-yb-3/native-protocol-1.4.11-yb-3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
