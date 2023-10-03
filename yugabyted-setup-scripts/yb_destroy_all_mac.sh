@@ -1,5 +1,5 @@
 # Mac Version
-# Doc reference: https://docs.yugabyte.com/preview/reference/configuration/yugabyted/#stop 
+# Doc reference: https://docs.yugabyte.com/preview/reference/configuration/yugabyted/#destroy
 
 # Set base directory
 BASEDIR=$HOME/yb
