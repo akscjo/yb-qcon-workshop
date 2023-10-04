@@ -8,18 +8,23 @@ BASEDIR=$HOME/yb
 printf "\nStarting primary node...\n"
 $BASEDIR/yugabyte-2.19.2.0/bin/yugabyted start --base_dir=$BASEDIR/node1 > $BASEDIR/node1_start.log
 
+sleep 5
+
 # Start 2nd node
 printf "\nStarting node 2...\n"
 $BASEDIR/yugabyte-2.19.2.0/bin/yugabyted start --base_dir=$BASEDIR/node2 > $BASEDIR/node2_start.log
+
+sleep 5
 
 # Start 3rd node
 printf "\nStarting node 3...\n"
 $BASEDIR/yugabyte-2.19.2.0/bin/yugabyted start --base_dir=$BASEDIR/node3 > $BASEDIR/node3_start.log
 
 # Wait a bit
-sleep 30
+printf "\nFinishing up, please wait 20 seconds...\n"
+sleep 20
 
-# Verify connectivity
+# Check connectivity to each node
 until $BASEDIR/yugabyte-2.19.2.0/postgres/bin/pg_isready -h 127.0.0.1 -p 5433 ; do sleep 1 ; done
 until $BASEDIR/yugabyte-2.19.2.0/postgres/bin/pg_isready -h 127.0.0.2 -p 5433 ; do sleep 1 ; done
 until $BASEDIR/yugabyte-2.19.2.0/postgres/bin/pg_isready -h 127.0.0.3 -p 5433 ; do sleep 1 ; done
