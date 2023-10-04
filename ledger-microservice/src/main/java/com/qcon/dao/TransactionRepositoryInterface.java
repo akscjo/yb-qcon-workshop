@@ -4,6 +4,7 @@ import com.qcon.model.Transaction;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface TransactionRepositoryInterface {
     List<Transaction> findAll();
@@ -13,5 +14,5 @@ public interface TransactionRepositoryInterface {
     void delete(Long id);
     List<Transaction> getLatestTransactions();
     List<Transaction> findTop10FromAccounts(LocalDateTime timestamp);
-    List<Transaction> findTop10HighValueAccounts(LocalDateTime timestamp, int debitLimit) ;
+    Map<String, Integer> getTransactions(LocalDateTime timestamp);
 }

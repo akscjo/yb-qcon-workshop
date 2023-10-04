@@ -14,17 +14,18 @@ BASEDIR=$HOME/yb
 if [ ! -d $BASEDIR ]
 then
      mkdir -p $BASEDIR
+     # Download YB for Mac
+     printf "\nDownloading YugabyteDB...\n"
+     curl https://downloads.yugabyte.com/releases/2.19.2.0/yugabyte-2.19.2.0-b121-darwin-x86_64.tar.gz > $BASEDIR/yugabyte-2.19.2.0-b121-darwin-x86_64.tar.gz
+
+     # Extract Tarball
+     printf "\nExtracting Tarball...\n"
+     tar xfz $BASEDIR/yugabyte-2.19.2.0-b121-darwin-x86_64.tar.gz --directory $BASEDIR
 else
      echo "YB base directory already exists"
 fi
 
-# Download YB for Mac
-printf "\nDownloading YugabyteDB...\n"
-curl https://downloads.yugabyte.com/releases/2.19.2.0/yugabyte-2.19.2.0-b121-darwin-x86_64.tar.gz > $BASEDIR/yugabyte-2.19.2.0-b121-darwin-x86_64.tar.gz
 
-# Extract Tarball
-printf "\nExtracting Tarball...\n"
-tar xfz $BASEDIR/yugabyte-2.19.2.0-b121-darwin-x86_64.tar.gz --directory $BASEDIR
 
 # Enable additional loopback addresses:
 sudo ifconfig lo0 alias 127.0.0.2 up

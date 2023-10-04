@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/transactions")
@@ -70,20 +71,18 @@ public class TransactionController {
 
     @GetMapping("/top-10-from-accts")
     public List<Transaction> getTop10FromAccounts() {
-        // Define a timestamp for 3 minutes ago
-        LocalDateTime threeMinutesAgo = LocalDateTime.now().minusMinutes(3);
+        // Define a timestamp for 1 minutes ago
+        LocalDateTime oneMinuteAgo = LocalDateTime.now().minusMinutes(1);
 
         // Call a custom repository method to retrieve the top 10 from_acct based on total amount
-        return transactionRepository.findTop10FromAccounts(threeMinutesAgo);
+        return transactionRepository.findTop10FromAccounts(oneMinuteAgo);
     }
 
-    @GetMapping("/top-10-high-value-accts")
-    public List<Transaction> getTop10HighValueAccounts() {
-        // Define a timestamp for 3 minutes ago
-        LocalDateTime threeMinutesAgo = LocalDateTime.now().minusMinutes(3);
-
-        // Call a custom repository method to retrieve the top 10 accounts with high debit amounts
-        return transactionRepository.findTop10HighValueAccounts(threeMinutesAgo, 10000);
+    @GetMapping("/avg-transactions")
+    public Map<String, Integer> getTop10HighValueAccounts() {
+        // Define a timestamp for 1 minutes ago
+        LocalDateTime oneMinuteAgo = LocalDateTime.now().minusMinutes(1);
+        return transactionRepository.getTransactions(oneMinuteAgo);
     }
 
 

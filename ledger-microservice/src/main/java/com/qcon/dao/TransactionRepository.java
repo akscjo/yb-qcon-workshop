@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class TransactionRepository implements TransactionRepositoryInterface{
@@ -86,38 +88,34 @@ public class TransactionRepository implements TransactionRepositoryInterface{
 
     @Override
     public List<Transaction> findTop10FromAccounts(LocalDateTime timestamp) {
-        String sql = "SELECT from_acct, SUM(amount) as amount " +
-                "FROM transactions " +
-                "WHERE timestamp >= ? " +
-                "GROUP BY from_acct " +
-                "ORDER BY SUM(amount) DESC " +
-                "LIMIT 10";
-
-
-        /*
-                jdbcTemplate.query(sbQuery.toString(),
-                new RowCallbackHandler() {
-                    @Override
-                    public void processRow(ResultSet rs) throws SQLException {
-                        UUID value = (UUID)rs.getObject(1);
-                        results.add(value);
-                    }
-                });
-         */
-
+        String sql = "SELECT *\n" +
+                        "FROM transactions\n" +
+                        "WHERE \"timestamp\" >= ? \n" +
+                        "ORDER BY \"amount\" DESC\n" +
+                        "LIMIT 10;";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Transaction.class), Timestamp.valueOf(timestamp));
     }
-    @Override
-    public List<Transaction> findTop10HighValueAccounts(LocalDateTime timestamp, int debitLimit) {
-        String sql = "SELECT from_acct, SUM(amount) as amount " +
-                "FROM transactions " +
-                "WHERE timestamp >= ? AND amount >= ? " +
-                "GROUP BY from_acct " +
-                "HAVING SUM(amount) >= ? " +
-                "ORDER BY SUM(amount) DESC " +
-                "LIMIT 10";
 
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Transaction.class), Timestamp.valueOf(timestamp), debitLimit, debitLimit);
+    @Override
+    public Map<String, Integer> getTransactions(LocalDateTime timestamp) {
+        int numSeconds = 60;
+        String sql = "SELECT COUNT(*) AS total_transactions " +
+                "FROM transactions " +
+                "WHERE \"timestamp\" >= ?";
+
+        Timestamp timestampParam = Timestamp.valueOf(timestamp.minusSeconds(numSeconds)); // Calculate 60 seconds ago
+
+        int totalTransactions = jdbcTemplate.queryForObject(sql, Integer.class, timestampParam);
+
+        Map<String, Integer> response = new HashMap<>();
+        response.put("total_transactions", totalTransactions);
+
+        return response;
     }
+
+
+
+
+
 
 }

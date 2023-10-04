@@ -9,7 +9,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Include Chart.js library -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
 </head>
 <body>
 <!-- Main navigation  -->
@@ -65,30 +67,15 @@
         <!-- Right-side columns for displaying top 10 data -->
         <div class="col-md-4">
             <h4>Top 10 From Accounts</h4>
-            <canvas id="top10FromAccountsChart"></canvas>
-<!--            <table class="table table-striped table-sm">-->
-<!--                <thead>-->
-<!--                <tr>-->
-<!--                    <th>From Account</th>-->
-<!--                    <th>Total Amount</th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody id="top10FromAccounts">-->
-<!--                &lt;!&ndash; Top 10 From Accounts data will be dynamically added here &ndash;&gt;-->
-<!--                </tbody>-->
-<!--            </table>-->
-            <h4>Top 10 High-Value Accounts</h4>
-            <table class="table table-striped table-sm">
-                <thead>
-                <tr>
-                    <th>From Account</th>
-                    <th>Total Amount</th>
-                </tr>
-                </thead>
-                <tbody id="top10HighValueAccounts">
-                <!-- Top 10 High-Value Accounts data will be dynamically added here -->
-                </tbody>
-            </table>
+            <hr>
+            <div id="top10FromAccountsChart">Charts</div>
+            <hr>
+            <div id="transactionsPerSec" class="text-center">
+                <h4>Transactions in last minute: <span id="transactionsPerSecValue" class="label label-info"></span></h4>
+            </div>
+            <hr>
+
+
             <h4>Yugabyte Server Information</h4>
             <table class="table table-striped table-sm">
                 <thead>
@@ -143,84 +130,48 @@
             $.get('/transactions/top-10-from-accts', (data) => {
                 updateTop10FromAccountsChart(data);
             });
-        }, 1000); // Poll every 1 second (adjust as needed)
+        }, 5000); // Poll every 1 second (adjust as needed)
     }
 
-    // Function to poll top 10 high-value accounts data
-    function pollTop10HighValueAccounts() {
-        setInterval(() => {
-            $.get('/transactions/top-10-high-value-accts', (data) => {
-                updateTop10HighValueAccountsUI(data);
-            });
-        }, 1000); // Poll every 1 second (adjust as needed)
-    }
 
-    // Function to update top 10 from accounts data in the UI
-    function updateTop10FromAccountsUI(accounts) {
-        $('#top10FromAccounts').empty();
-        for (const account of accounts) {
-            const row = `
-                <tr>
-                    <td>${account.fromAcct}</td>
-                    <td>${account.amount}</td>
-                </tr>
-            `;
-            $('#top10FromAccounts').append(row);
-        }
-    }
-
-    // Function to update top 10 high-value accounts data in the UI
-    function updateTop10HighValueAccountsUI(accounts) {
-        $('#top10HighValueAccounts').empty();
-        for (const account of accounts) {
-            const row = `
-                <tr>
-                    <td>${account.fromAcct}</td>
-                    <td>${account.amount}</td>
-                </tr>
-            `;
-            $('#top10HighValueAccounts').append(row);
-        }
-    }
 
     // Function to update top 10 from accounts chart
     function updateTop10FromAccountsChart(accounts) {
-        const labels = accounts.map((account) => account.fromAcct);
+        const categories = accounts.map((account) => account.fromAcct);
         const data = accounts.map((account) => account.amount);
-        const randomColors = generateRandomColors(labels.length);
 
-        const ctx = document.getElementById('top10FromAccountsChart').getContext('2d');
-        const chart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Total Amount',
-                    data: data,
-                    backgroundColor: randomColors,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
+        // Create or update the chart using the global top10FromAccountsChart variable
+        // if (top10FromAccountsChart) {
+        //     //top10FromAccountsChart.destroy(); // Destroy the existing chart if it exists
+        // }
+
+        top10FromAccountsChart = Highcharts.chart('top10FromAccountsChart', {
+            chart: {
+                type: 'bar'
             },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+            title: {
+                text: 'Top 10 From Accounts'
+            },
+            xAxis: {
+                categories: categories,
+                title: {
+                    text: 'From Account'
                 }
-            }
+            },
+            yAxis: {
+                title: {
+                    text: 'Total Amount'
+                }
+            },
+            series: [{
+                name: 'Total Amount',
+                data: data
+            }]
         });
+
     }
 
-    // Function to generate random colors
-    function generateRandomColors(count) {
-        const colors = [];
-        for (let i = 0; i < count; i++) {
-            const color = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.6)`;
-            colors.push(color);
-        }
-        return colors;
-    }
+
 
     // Function to poll Yugabyte Server Information data
     function pollYbServerInfo() {
@@ -247,12 +198,33 @@
         }
     }
 
+    // Function to poll average transactions data
+    function pollAverageTransactions() {
+        setInterval(() => {
+            $.get('/transactions/avg-transactions', (data) => {
+                // Ensure data is a number
+                const average = parseFloat(data.total_transactions);
+                if (!isNaN(average)) {
+                    updateAverageTransactionsValue(average);
+                }
+                else{
+                    updateAverageTransactionsValue(0);
+                }
+            });
+        }, 1000); // Poll every 1 second
+    }
+
+    // Function to update the "Transactions/Sec" value
+    function updateAverageTransactionsValue(average) {
+        $('#transactionsPerSecValue').text(average.toFixed(2));
+    }
+
     // Start polling when the page loads
     $(document).ready(() => {
         pollLatestTransactions();
         pollTop10FromAccounts();
-        pollTop10HighValueAccounts();
         pollYbServerInfo();
+        pollAverageTransactions();
     });
 </script>
 </body>
