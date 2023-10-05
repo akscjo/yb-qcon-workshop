@@ -1,0 +1,77 @@
+version: "3.9"
+services:
+  yugabyted-4:
+    container_name: yugabyted-4
+    hostname: yugabyted-4.local
+    image: yugabytedb/yugabyte:latest
+    platform: linux/amd64
+    command:
+      - sh
+      - -c
+      - |
+        bin/yugabyted start --advertise_address=yugabyted-4.local --cloud_location=cloud.region.zone1 --fault_tolerance=zone --tserver_flags="$tserver_flags" --master_flags="$master_flags" --daemon=false --join=yugabyted-1.local
+    #      bin/yugabyted configure data_placement --constraint_value=cloud.region.zone1 --fault_tolerance=zone --rf=3
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "7003:7000"
+      - "9003:9000"
+      - "5436:5433"
+    healthcheck:
+      test: ["CMD", "/home/yugabyte/postgres/bin/pg_isready", "-h", "yugabyted-4.local"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  yugabyted-5:
+    container_name: yugabyted-5
+    hostname: yugabyted-5.local
+    image: yugabytedb/yugabyte:latest
+    platform: linux/amd64
+    command:
+      - sh
+      - -c
+      - |
+        bin/yugabyted start --advertise_address=yugabyted-5.local --cloud_location=cloud.region.zone2 --fault_tolerance=zone --tserver_flags="$tserver_flags" --master_flags="$master_flags" --daemon=false --join=yugabyted-1.local
+    # bin/yugabyted configure data_placement --constraint_value=cloud.region.zone1,cloud.region.zone2,cloud.region.zone3 --fault_tolerance=zone --rf=3
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "7004:7000"
+      - "9004:9000"
+      - "5437:5433"
+    depends_on:
+      yugabyted-4:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "/home/yugabyte/postgres/bin/pg_isready", "-h", "yugabyted-5.local"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  yugabyted-6:
+    container_name: yugabyted-6
+    hostname: yugabyted-6.local
+    image: yugabytedb/yugabyte:latest
+    platform: linux/amd64
+    command:
+      - sh
+      - -c
+      - |
+        bin/yugabyted start --advertise_address=yugabyted-6.local --cloud_location=cloud.region.zone3 --fault_tolerance=zone --tserver_flags="$tserver_flags" --master_flags="$master_flags" --daemon=false --join=yugabyted-1.local
+    # bin/yugabyted configure data_placement --constraint_value=cloud.region.zone1,cloud.region.zone2,cloud.region.zone3 --fault_tolerance=zone --rf=3
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "7005:7000"
+      - "9005:9000"
+      - "5438:5433"
+    depends_on:
+      yugabyted-5:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "/home/yugabyte/postgres/bin/pg_isready", "-h", "yugabyted-6.local"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
