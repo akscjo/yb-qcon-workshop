@@ -6,19 +6,27 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="workload-service" />
+        <module name="workload-service-starter" />
         <module name="ledger-microservice" />
+        <module name="workload-service" />
+        <module name="ledger-microservice-starter" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="ledger-microservice" target="17" />
+      <module name="ledger-microservice-starter" target="17" />
       <module name="workload-service" target="8" />
+      <module name="workload-service (1)" target="8" />
+      <module name="workload-service-starter" target="8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ledger-microservice" options="-parameters" />
+      <module name="ledger-microservice-starter" options="-parameters" />
       <module name="workload-service" options="-parameters" />
+      <module name="workload-service (1)" options="-parameters" />
+      <module name="workload-service-starter" options="-parameters" />
     </option>
   </component>
 </project>
