@@ -25,28 +25,36 @@ else
      echo "YB base directory already exists"
 fi
 
-
-
 # Enable additional loopback addresses:
 sudo ifconfig lo0 alias 127.0.0.2 up
 sudo ifconfig lo0 alias 127.0.0.3 up
 
 # Start primary node
 printf "\nStarting primary node...\n"
-$BASEDIR/yugabyte-2.19.2.0/bin/yugabyted start --advertise_address 127.0.0.1 --base_dir=$BASEDIR/node1 --cloud_location onprem.dc1.az1 --fault_tolerance=zone --tserver_flags="ysql_enable_packed_row=true,ysql_beta_features=true,yb_enable_read_committed_isolation=true,enable_deadlock_detection=true,enable_wait_queues=true" --master_flags="ysql_enable_packed_row=true,ysql_beta_features=true,transaction_tables_use_preferred_zones=true"
+$BASEDIR/yugabyte-2.19.2.0/bin/yugabyted start --advertise_address 127.0.0.1 --base_dir=$BASEDIR/node1 --cloud_location cloud.region1.node1 --fault_tolerance=zone --tserver_flags="ysql_enable_packed_row=true,ysql_beta_features=true,yb_enable_read_committed_isolation=true,enable_deadlock_detection=true,enable_wait_queues=true" --master_flags="ysql_enable_packed_row=true"
 
-until $BASEDIR/yugabyte-2.19.2.0/postgres/bin/pg_isready -h 127.0.0.1 -p 5433 ; do sleep 1 ; done
+sleep 5
 
 # Start 2nd node
 printf "\nStarting node 2...\n"
-$BASEDIR/yugabyte-2.19.2.0/bin/yugabyted start --advertise_address 127.0.0.2 --base_dir=$BASEDIR/node2 --cloud_location onprem.dc1.az2 --fault_tolerance=zone --join=127.0.0.1 --tserver_flags="ysql_enable_packed_row=true,ysql_beta_features=true,yb_enable_read_committed_isolation=true,enable_deadlock_detection=true,enable_wait_queues=true" --master_flags="ysql_enable_packed_row=true,ysql_beta_features=true,transaction_tables_use_preferred_zones=true"
+$BASEDIR/yugabyte-2.19.2.0/bin/yugabyted start --advertise_address 127.0.0.2 --base_dir=$BASEDIR/node2 --cloud_location cloud.region1.node2 --fault_tolerance=zone --join=127.0.0.1 --tserver_flags="ysql_enable_packed_row=true,ysql_beta_features=true,yb_enable_read_committed_isolation=true,enable_deadlock_detection=true,enable_wait_queues=true" --master_flags="ysql_enable_packed_row=true"
 
-until $BASEDIR/yugabyte-2.19.2.0/postgres/bin/pg_isready -h 127.0.0.2 -p 5433 ; do sleep 1 ; done
+sleep 5
 
 # Start 3rd node
 printf "\nStarting node 3...\n"
-$BASEDIR/yugabyte-2.19.2.0/bin/yugabyted start --advertise_address 127.0.0.3 --base_dir=$BASEDIR/node3 --cloud_location onprem.dc1.az3 --fault_tolerance=zone --join=127.0.0.1 --tserver_flags="ysql_enable_packed_row=true,ysql_beta_features=true,yb_enable_read_committed_isolation=true,enable_deadlock_detection=true,enable_wait_queues=true" --master_flags="ysql_enable_packed_row=true,ysql_beta_features=true,transaction_tables_use_preferred_zones=true"
+$BASEDIR/yugabyte-2.19.2.0/bin/yugabyted start --advertise_address 127.0.0.3 --base_dir=$BASEDIR/node3 --cloud_location cloud.region1.node3 --fault_tolerance=zone --join=127.0.0.1 --tserver_flags="ysql_enable_packed_row=true,ysql_beta_features=true,yb_enable_read_committed_isolation=true,enable_deadlock_detection=true,enable_wait_queues=true" --master_flags="ysql_enable_packed_row=true"
 
+# Wait a bit
+printf "\nFinishing up, please wait 20 seconds...\n"
+sleep 20
+
+# Set data placement policy
+$BASEDIR/yugabyte-2.19.2.0/bin/yugabyted configure data_placement --fault_tolerance=zone --base_dir=$BASEDIR/node1
+
+# Check connectivity to each node
+until $BASEDIR/yugabyte-2.19.2.0/postgres/bin/pg_isready -h 127.0.0.1 -p 5433 ; do sleep 1 ; done
+until $BASEDIR/yugabyte-2.19.2.0/postgres/bin/pg_isready -h 127.0.0.2 -p 5433 ; do sleep 1 ; done
 until $BASEDIR/yugabyte-2.19.2.0/postgres/bin/pg_isready -h 127.0.0.3 -p 5433 ; do sleep 1 ; done
 
 # Verify 3 nodes are up!
