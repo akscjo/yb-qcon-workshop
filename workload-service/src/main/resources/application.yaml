@@ -1,5 +1,5 @@
 spring:
-  workload: ${workload:qconWorkload}
+  workload: ${workload:exampleWorkload}
   application:
     name: ${SPRING_APPLICATION_NAME:}
   jpa:
