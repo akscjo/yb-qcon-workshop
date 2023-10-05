@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ledger-microservice/ledger-microservice.iml" filepath="$PROJECT_DIR$/ledger-microservice/ledger-microservice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ledger-microservice-starter/ledger-microservice-starter.iml" filepath="$PROJECT_DIR$/ledger-microservice-starter/ledger-microservice-starter.iml" />
       <module fileurl="file://$PROJECT_DIR$/workload-service/workload-service.iml" filepath="$PROJECT_DIR$/workload-service/workload-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/workload-service-starter/workload-service-starter.iml" filepath="$PROJECT_DIR$/workload-service-starter/workload-service-starter.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/yb-qcon-workshop.iml" filepath="$PROJECT_DIR$/.idea/yb-qcon-workshop.iml" />
     </modules>
   </component>

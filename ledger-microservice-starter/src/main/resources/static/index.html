@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Yugabank Transaction Monitoring</title>
+    <!-- Include Bootstrap CSS and JS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Include Chart.js library -->
+<!--    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+</head>
+<body>
+<!-- Main navigation  -->
+<header class="navbar navbar-static-top navbar-inverse bs-docs-nav" id="top">
+    <div class="container">
+        <div class="navbar-header" role="banner">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html"> <img src="logo-dark.png" height="20" alt="YugabyteDB"></a>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="https://github.com/akscjo/yb-qcon-workshop">GitHub</a>
+                </li>
+
+                <li>
+                    <a href="https:/docs.yugabyte.com">YugabyteDB docs</a>
+                </li>
+                <li>
+                    <img src="qcon-logo.png" height="30" alt="QCon">
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+</header>
+<div class="bs-docs-header" id="content">
+    <div class="container mt-5">
+        <h3 class="mb-4">Yugabank Transaction Monitoring</h3>
+        <!-- Left-side table for displaying transactions -->
+        <div class="col-md-8">
+            <h4>Latest Transactions</h4>
+            <table class="table table-striped table-sm">
+                <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>From Account</th>
+                    <th>To Account</th>
+                    <th>Amount</th>
+                    <th>Timestamp</th>
+                </tr>
+                </thead>
+                <tbody id="transactionTableBody">
+                <!-- Transactions will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+        <!-- Right-side columns for displaying top 10 data -->
+        <div class="col-md-4">
+            <h4>Top 10 From Accounts</h4>
+            <hr>
+            <div id="top10FromAccountsChart">Charts</div>
+            <hr>
+            <div id="transactionsPerSec" class="text-center">
+                <h4>Transactions in last minute: <span id="transactionsPerSecValue" class="label label-info"></span></h4>
+            </div>
+            <hr>
+
+
+            <h4>Yugabyte Server Information</h4>
+            <table class="table table-striped table-sm">
+                <thead>
+                <tr>
+                    <th>Host</th>
+                    <th>Cloud</th>
+                    <th>Region</th>
+                    <th>Zone</th>
+                </tr>
+                </thead>
+                <tbody id="ybServerInfoTable">
+                <!-- Server information data will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function pollLatestTransactions() {
+        // TODO: Implement me
+    }
+
+    function updateTransactionUI(transactions) {
+        //TODO: Implement me
+    }
+
+    // Function to poll top 10 from accounts data
+    function pollTop10FromAccounts() {
+        //TODO: Implement me
+    }
+
+
+
+    // Function to update top 10 from accounts chart
+    function updateTop10FromAccountsChart(accounts) {
+        // TODO: Implement me
+    }
+
+
+
+    // Function to poll Yugabyte Server Information data
+    function pollYbServerInfo() {
+        //TODO: Implement me
+    }
+
+    // Function to update Yugabyte Server Information data in the UI
+    function updateYbServerInfoUI(serverInfo) {
+        // TODO: Implement me
+    }
+
+    // Function to poll average transactions data
+    function pollAverageTransactions() {
+        // TODO: Implement me
+    }
+
+    // Function to update the "Transactions/Sec" value
+    function updateAverageTransactionsValue(average) {
+       // TODO: Implement me
+    }
+
+    // Start polling when the page loads
+    $(document).ready(() => {
+        pollLatestTransactions();
+        pollTop10FromAccounts();
+        pollYbServerInfo();
+        pollAverageTransactions();
+    });
+</script>
+</body>
+</html>
