@@ -71,7 +71,7 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20220924</version>
+            <version>20231013</version>
         </dependency>
         <!-- Needed for YCQL implementation -->
         <dependency>
